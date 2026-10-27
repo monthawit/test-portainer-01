@@ -1,0 +1,22 @@
+name: Redeploy Portainer stack
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  redeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Portainer git redeploy
+        run: |
+          curl -fsS -k -X POST \
+            "${PORTAINER_URL}/api/stacks/${STACK_ID}/git/redeploy?endpointId=${ENDPOINT_ID}" \
+            -H "X-API-Key: ${PORTAINER_API_KEY}" \
+            -H "Content-Type: application/json" \
+            -d '{"pullImage": true}'
+        env:
+          PORTAINER_URL: ${{ secrets.PORTAINER_URL }}
+          PORTAINER_API_KEY: ${{ secrets.PORTAINER_API_KEY }}
+          STACK_ID: "2"
+          ENDPOINT_ID: "3"
