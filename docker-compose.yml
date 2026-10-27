@@ -1,9 +1,7 @@
 services:
   web:
-    image: nginx:1.27-alpine
+    build: .
     container_name: test-portainer-01-web
     restart: unless-stopped
     ports:
       - "8088:80"
-    volumes:
-      - ./index.html:/usr/share/nginx/html/index.html:ro
